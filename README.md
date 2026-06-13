@@ -1,0 +1,5 @@
+Este trabalho de faculdade foi desenvolvido em dupla com o objetivo de implementar, em linguagem C, uma solução para o problema de representação e análise de cidades interligadas por estradas de mão única. As conexões entre as cidades são modeladas por meio de uma matriz 4x4, em que cada elemento indica a existência ou não de uma estrada direta entre duas cidades.
+
+Nesse modelo, os elementos de cada linha representam as estradas que saem de uma determinada cidade, enquanto os elementos de cada coluna representam as estradas que chegam a ela. Por convenção, os elementos da diagonal principal possuem valor igual a 1, indicando a ligação da cidade com ela mesma.
+
+Durante o desenvolvimento do projeto, buscamos aplicar conceitos fundamentais de programação, como matrizes, estruturas condicionais, laços de repetição e modularização por funções. A proposta permitiu colocar em prática os conhecimentos adquiridos na disciplina, além de desenvolver habilidades relacionadas à resolução de problemas computacionais envolvendo grafos e estruturas de dados.
