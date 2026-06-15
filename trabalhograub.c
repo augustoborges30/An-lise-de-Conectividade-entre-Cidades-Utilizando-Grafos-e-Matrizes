@@ -84,7 +84,7 @@ int main(){
 
     //questao D
 
-    int cidade 
+    int cidade;
 
     printf("Qual cidade? \n");   
     scanf("%d", &cidade);
@@ -99,7 +99,7 @@ int main(){
 
     //questao E
 
-    // i. Cidades sem saída
+    // i. Cidades isoladas
     printf("As cidade que não possuem saídas diretas para nenhuma outra cidade são:\n");
 
     for(int i = 0; i < 4; i++){
@@ -115,29 +115,166 @@ int main(){
         }
     }
 
+    // ii. Cidades sem saída (mas com entrada)
+
+    printf("As cidades que possuem entradas, mas não possuem saídas são: \n");
+
+    int temSemSaida = 0; // Variável para verificar se encontrou pelo menos uma cidade sem saída
+    for(int i = 0; i < 4; i++){
+        int temEntrada = 0; 
+        int temSaida = 0;  // Variável para verificar se tem saída e entrada
+
+        for(int j = 0; j < 4; j++){ 
+            if(matriz[i][j] == 1){ 
+                temSaida = 1; // Se encontrar uma saída, marca que tem saída
+            }
+            if(matriz[j][i] == 1){
+                temEntrada = 1; // Se encontrar uma entrada, marca que tem entrada
+            }
+        }
+
+        if(temEntrada && !temSaida){ 
+            printf("%d ", i+1); 
+            temSemSaida = 1; // Marca que encontrou pelo menos uma cidade sem saída
+        }
+    }
+
+    if(!temSemSaida){
+        printf("Nenhuma"); // Se não encontrou nenhuma cidade sem saída, imprime "Nenhuma"  
+    }
+
+    // iii. Cidades com saída mas sem entrada
+
+    printf("As cidades que possuem saídas, mas não possuem entradas são: \n");
+
+    int TemsaidaSemEntrada = 0; 
+
+    for(int i = 0; i < 4; i++) {
+            int tem_saida = 0;
+            int sem_entrada = 0;
+ 
+            for(int j = 0; j < 4; j++) {
+                if(i != j && matriz[i][j] == 1) {
+                    tem_saida = 1;  // Tem saída
+                }
+                if(matriz[j][i] == 1) {
+                    sem_entrada = 1;  // Tem entrada
+                }
+            }
+
+            if(tem_saida && !sem_entrada) {
+                printf("%d ", i+1); 
+                TemsaidaSemEntrada = 1; //tem saida, mas não tem entrada 
+            }
+        }   
+
+         if(!TemsaidaSemEntrada){
+             printf("Nenhuma");  
+         }
+
+
     //questao F
 
 
 
     //questao G
     
-    int cidadeG1;
+     int cidadeG1;
     printf("Qual cidade que quer partir? ");
     scanf("%d", &cidadeG1);   
+
+    int caminho = 0;
 
     int cidadeG2;
     printf("Qual cidade que quer chegar? ");
     scanf("%d", &cidadeG2);   
 
     if(matriz[cidadeG1-1][cidadeG2-1] == 1){
+        caminho++;
+    }
+
+    for(int i = 0; i < 4; i++){
+        if(matriz[cidadeG1 - 1][i] == 1){
+            if(matriz[i][cidadeG2 - 1] == 1){
+                caminho++;
+            }
+        }
+    }
+
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 4; j++){
+            if(i != j){
+                if(matriz[cidadeG1 - 1][i] == 1){
+                    if(matriz[i][j] == 1){
+                        if(matriz[j][cidadeG2 - 1] == 1){
+                            caminho++;
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+    
+
+    if(caminho >= 1){
         printf("É possível ir da cidade %d para a cidade %d pelas rotas existentes", cidadeG1, cidadeG2);
     }else{
-        printf("Se fudeu");
-    } 
-
-
-
-    //Atividade H
+        printf("Não tem como, procura no waze. \n");
+    }
     
-    return 0; 
+    //Atividade H
+
+    int cidadeH;
+    printf("Qual cidade que quer partir? ");
+    scanf("%d", &cidadeH);   
+
+    int caminho = 0;
+
+    int inicio = -1;
+    int parada1 = -1;
+    int parada2 = -1;
+    int destino = -1;
+
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 4; j++){
+            for(int k = 0; k < 4; k++){
+                if(cidadeH - 1 != i){
+                    if(matriz[cidadeH - 1][i] == 1){
+                        inicio = cidadeH - 1;
+                        if(i != j && i != cidadeH -1){
+                            if(matriz[i][j] == 1){
+                                parada1 = i;
+                                if(j != k && j != i && j != cidadeH - 1){
+                                    if(matriz[j][k] == 1){
+                                        parada2 = j;
+                                        if(k != cidadeH - 1 && k != i && k != j){
+                                            if(matriz[k][cidadeH - 1] == 1){
+                                                //printf("%d, %d, %d\n", i, j, k);
+                                                
+                                                destino = k;
+                                                caminho++;
+                                                //break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    //printf("\n%d\n", caminho);
+    //printf("rota: %d,%d,%d,%d\n", inicio, parada1, parada2, destino);
+    if(caminho >= 1){
+        printf("é possível, partindo da cidade %d, passar por todas as outras cidades apenas uma vez e retornar a cidade %d", cidadeH, cidadeH);
+    }else{
+        printf("Se fudeu");
+    }
+    
+    return 0;
 }
+    
